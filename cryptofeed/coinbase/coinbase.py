@@ -9,12 +9,11 @@ import json
 import logging
 from decimal import Decimal
 from datetime import datetime as dt
-
-import requests
 from sortedcontainers import SortedDict as sd
 
 from cryptofeed.feed import Feed
 from cryptofeed.defines import L2_BOOK, L3_BOOK, BUY, SELL, BID, ASK, TRADES, TICKER, COINBASE
+from security import safe_requests
 
 
 LOG = logging.getLogger('feedhandler')
@@ -170,7 +169,7 @@ class Coinbase(Feed):
 
         results = []
         for url in urls:
-            ret = requests.get(url)
+            ret = safe_requests.get(url)
             results.append(ret)
 
         for res, pair in zip(results, pairs):

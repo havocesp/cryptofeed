@@ -12,6 +12,7 @@ import pandas as pd
 from cryptofeed.rest.api import API, request_retry
 from cryptofeed.defines import POLONIEX, BUY, SELL
 from cryptofeed.standards import pair_std_to_exchange, pair_exchange_to_std
+from security import safe_requests
 
 
 LOG = logging.getLogger('rest')
@@ -28,7 +29,7 @@ class Poloniex(API):
     def _get(self, command: str, options=None):
         base_url = "{}public?command={}".format(self.rest_api, command)
 
-        resp = requests.get(base_url, params=options)
+        resp = safe_requests.get(base_url, params=options)
         self.handle_error(resp, LOG)
 
         return resp.json()

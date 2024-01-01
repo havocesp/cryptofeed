@@ -9,11 +9,11 @@ import logging
 
 from sortedcontainers import SortedDict as sd
 import pandas as pd
-import requests
 
 from cryptofeed.rest.api import API, request_retry
 from cryptofeed.defines import BITFINEX, SELL, BUY, BID, ASK
 from cryptofeed.standards import pair_std_to_exchange, pair_exchange_to_std
+from security import safe_requests
 
 
 REQUEST_LIMIT = 5000
@@ -97,9 +97,9 @@ class Bitfinex(API):
         @request_retry(self.ID, retry, retry_wait)
         def helper(start, end):
             if start and end:
-                return requests.get(f"{self.api}trades/{symbol}/hist?limit={REQUEST_LIMIT}&start={start}&end={end}&sort=1")
+                return safe_requests.get(f"{self.api}trades/{symbol}/hist?limit={REQUEST_LIMIT}&start={start}&end={end}&sort=1")
             else:
-                return requests.get(f"{self.api}trades/{symbol}/hist")
+                return safe_requests.get(f"{self.api}trades/{symbol}/hist")
 
         while True:
             r = helper(start, end)
@@ -161,7 +161,7 @@ class Bitfinex(API):
         @request_retry(self.ID, retry, retry_wait)
         def helper():
             precision = 'R0' if l3 is True else 'P0'
-            return requests.get(f"{self.api}/book/{symbol}/{precision}?len=100")
+            return safe_requests.get(f"{self.api}/book/{symbol}/{precision}?len=100")
 
         while True:
             r = helper()
