@@ -27,7 +27,7 @@ class Kraken(API):
             payload = {}
         url = "{}{}".format(self.api, command)
 
-        resp = requests.post(url, data=payload)
+        resp = requests.post(url, data=payload, timeout=60)
         self.handle_error(resp, LOG)
 
         return resp.json()
@@ -56,7 +56,7 @@ class Kraken(API):
             'API-Sign': sigdigest.decode()
         }
 
-        resp = requests.post("{}{}".format(self.api, command), data=payload, headers=headers)
+        resp = requests.post("{}{}".format(self.api, command), data=payload, headers=headers, timeout=60)
         self.handle_error(resp, LOG)
 
         return resp.json()
@@ -120,7 +120,7 @@ class Kraken(API):
         @request_retry(self.ID, retry, retry_wait)
         def helper(start_date):
             endpoint = f"{self.api}/public/Trades?pair={symbol}&since={start_date}"
-            return requests.get(endpoint)
+            return requests.get(endpoint, timeout=60)
 
 
         start_date = calendar.timegm(pd.Timestamp(start_date).timetuple()) * 1000000000

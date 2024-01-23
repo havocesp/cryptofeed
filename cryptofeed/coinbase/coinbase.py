@@ -170,7 +170,7 @@ class Coinbase(Feed):
 
         results = []
         for url in urls:
-            ret = requests.get(url)
+            ret = requests.get(url, timeout=60)
             results.append(ret)
 
         for res, pair in zip(results, pairs):

@@ -18,7 +18,7 @@ def gen_pairs(exchange):
 
 def binance_pairs():
     ret = {}
-    pairs = requests.get('https://api.binance.com/api/v1/exchangeInfo').json()
+    pairs = requests.get('https://api.binance.com/api/v1/exchangeInfo', timeout=60).json(timeout=60)
     for symbol in pairs['symbols']:
         split = len(symbol['baseAsset'])
         normalized = symbol['symbol'][:split] + '-' + symbol['symbol'][split:]
@@ -28,7 +28,7 @@ def binance_pairs():
 
 def bitfinex_pairs():
     ret = {}
-    r = requests.get('https://api.bitfinex.com/v2/tickers?symbols=ALL').json()
+    r = requests.get('https://api.bitfinex.com/v2/tickers?symbols=ALL', timeout=60).json(timeout=60)
     for data in r:
         pair = data[0]
         if pair[0] == 'f':
@@ -40,14 +40,14 @@ def bitfinex_pairs():
 
 
 def coinbase_pairs():
-    r = requests.get('https://api.pro.coinbase.com/products').json()
+    r = requests.get('https://api.pro.coinbase.com/products', timeout=60).json(timeout=60)
 
     return {data['id']: data['id'] for data in r}
 
 
 def gemini_pairs():
     ret = {}
-    r = requests.get('https://api.gemini.com/v1/symbols').json()
+    r = requests.get('https://api.gemini.com/v1/symbols', timeout=60).json(timeout=60)
 
     for pair in r:
         std = "{}-{}".format(pair[:-3], pair[-3:])
@@ -59,7 +59,7 @@ def gemini_pairs():
 
 def hitbtc_pairs():
     ret = {}
-    pairs = requests.get('https://api.hitbtc.com/api/2/public/symbol').json()
+    pairs = requests.get('https://api.hitbtc.com/api/2/public/symbol', timeout=60).json(timeout=60)
     for symbol in pairs:
         split = len(symbol['baseCurrency'])
         normalized = symbol['id'][:split] + '-' + symbol['id'][split:]
@@ -69,7 +69,7 @@ def hitbtc_pairs():
 
 def poloniex_id_pair_mapping():
     ret = {}
-    pairs = requests.get('https://poloniex.com/public?command=returnTicker').json()
+    pairs = requests.get('https://poloniex.com/public?command=returnTicker', timeout=60).json(timeout=60)
     for pair in pairs:
         ret[pairs[pair]['id']] = pair
     return ret
@@ -81,7 +81,7 @@ def poloniex_pairs():
 
 def bitstamp_pairs():
     ret = {}
-    r = requests.get('https://www.bitstamp.net/api/v2/trading-pairs-info/').json()
+    r = requests.get('https://www.bitstamp.net/api/v2/trading-pairs-info/', timeout=60).json(timeout=60)
     for data in r:
         normalized = data['name'].replace("/", "-")
         pair = data['url_symbol']
@@ -91,7 +91,7 @@ def bitstamp_pairs():
 
 def kraken_pairs():
     ret = {}
-    r = requests.get('https://api.kraken.com/0/public/AssetPairs')
+    r = requests.get('https://api.kraken.com/0/public/AssetPairs', timeout=60)
     data = r.json()
     for pair in data['result']:
         alt = data['result'][pair]['altname']
@@ -107,7 +107,7 @@ def kraken_pairs():
 
 
 def exx_pairs():
-    r = requests.get('https://api.exx.com/data/v1/tickers').json()
+    r = requests.get('https://api.exx.com/data/v1/tickers', timeout=60).json(timeout=60)
 
     exchange = [key.upper() for key in r.keys()]
     pairs = [key.replace("_", "-") for key in exchange]
@@ -115,12 +115,12 @@ def exx_pairs():
 
 
 def huobi_pairs():
-    r = requests.get('https://api.huobi.com/v1/common/symbols').json()
+    r = requests.get('https://api.huobi.com/v1/common/symbols', timeout=60).json(timeout=60)
     return {'{}-{}'.format(e['base-currency'].upper(), e['quote-currency'].upper()) : '{}{}'.format(e['base-currency'], e['quote-currency']) for e in r['data']}
 
 
 def okcoin_pairs():
-    r = requests.get('https://www.okcoin.com/api/spot/v3/instruments').json()
+    r = requests.get('https://www.okcoin.com/api/spot/v3/instruments', timeout=60).json(timeout=60)
     return {e['product_id'] : e['product_id'] for e in r}
 
 
