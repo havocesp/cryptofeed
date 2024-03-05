@@ -61,9 +61,8 @@ class FundingRedis(RedisCallback):
             self.redis = await aioredis.create_redis_pool('redis://{}:{}'.format(self.host, self.port))
 
         ts = None
-        timestamp = kwargs.get('timestamp', None)
 
-        if timestamp is None:
+        if (timestamp := kwargs.get('timestamp', None)) is None:
             timestamp = time.time()
             ts = timestamp
         else:

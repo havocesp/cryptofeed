@@ -42,8 +42,7 @@ class HitBTC(Feed):
         for side in (BID, ASK):
             for entry in msg[side]:
                 price = Decimal(entry['price'])
-                size = Decimal(entry['size'])
-                if size == 0:
+                if (size := Decimal(entry['size'])) == 0:
                     del self.l2_book[pair][side][price]
                     delta[side].append((price, 0))
                 else:

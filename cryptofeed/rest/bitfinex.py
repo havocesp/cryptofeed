@@ -114,8 +114,7 @@ class Bitfinex(API):
             elif r.status_code != 200:
                 self.handle_error(r, LOG)
 
-            data = r.json()
-            if data == []:
+            if (data := r.json()) == []:
                 LOG.warning("%s: No data for range %d - %d", self.ID, start, end)
             else:
                 if data[-1][1] == start:

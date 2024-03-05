@@ -108,9 +108,8 @@ class Coinbase(API):
             endpoint = '{}?product_id={}'.format(endpoint, symbol)
 
         header = self._generate_signature(endpoint, "GET")
-        data = self._make_request("GET", endpoint, header, retry=retry)
 
-        if data == []:
+        if (data := self._make_request("GET", endpoint, header, retry=retry)) == []:
             LOG.warning("%s: No data", self.ID)
         elif start_date is not None and end_date is not None:
             # filter out data not in specified range
