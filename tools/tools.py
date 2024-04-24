@@ -61,7 +61,7 @@ def hitbtc_get_trading_pairs():
 
 
 def cex_get_trading_pairs():
-    r = requests.get('https://cex.io/api/currency_limits')
+    r = requests.get('https://cex.io/api/currency_limits', timeout=60)
     print("[")
     for data in r.json()['data']['pairs']:
         print("'{}-{}',".format(data['symbol1'], data['symbol2']))
@@ -69,7 +69,7 @@ def cex_get_trading_pairs():
 
 
 def exx_get_trading_pairs():
-    r = requests.get('https://api.exx.com/data/v1/tickers')
+    r = requests.get('https://api.exx.com/data/v1/tickers', timeout=60)
     print("[")
     for key in r.json():
         print("'{}',".format(key))
@@ -77,7 +77,7 @@ def exx_get_trading_pairs():
 
 
 def bitmex_instruments():
-    r = requests.get('https://www.bitmex.com/api/v1/instrument/active')
+    r = requests.get('https://www.bitmex.com/api/v1/instrument/active', timeout=60)
     print("[")
     data = r.json()
     for d in data:
