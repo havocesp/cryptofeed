@@ -9,12 +9,11 @@ import logging
 from collections import defaultdict
 from decimal import Decimal
 from datetime import datetime as dt
-
-import requests
 from sortedcontainers import SortedDict as sd
 
 from cryptofeed.feed import Feed
 from cryptofeed.defines import L2_BOOK, BUY, SELL, BID, ASK, TRADES, FUNDING, L3_BOOK, BITMEX
+from security import safe_requests
 
 
 LOG = logging.getLogger('feedhandler')
@@ -44,11 +43,11 @@ class Bitmex(Feed):
 
     @staticmethod
     def get_symbol_info():
-        return requests.get(Bitmex.api + 'instrument/').json()
+        return safe_requests.get(Bitmex.api + 'instrument/').json()
 
     @staticmethod
     def get_active_symbols_info():
-        return requests.get(Bitmex.api + 'instrument/active').json()
+        return safe_requests.get(Bitmex.api + 'instrument/active').json()
 
     @staticmethod
     def get_active_symbols():

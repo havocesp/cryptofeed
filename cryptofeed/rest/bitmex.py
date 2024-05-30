@@ -4,12 +4,11 @@ import hashlib
 import hmac
 from urllib.parse import urlparse
 import logging
-
-import requests
 import pandas as pd
 
 from cryptofeed.rest.api import API, request_retry
 from cryptofeed.defines import BITMEX, SELL, BUY
+from security import safe_requests
 
 
 API_MAX = 500
@@ -62,7 +61,7 @@ class Bitmex(API):
             if self.key_id and self.key_secret:
                 header = self._generate_signature("GET", endpoint)
             header['Accept'] = 'application/json'
-            return requests.get('{}{}'.format(self.api, endpoint), headers=header)
+            return safe_requests.get('{}{}'.format(self.api, endpoint), headers=header)
 
         for interval in dates:
             start = 0
