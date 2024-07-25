@@ -68,11 +68,11 @@ class Coinbase(API):
         while True:
             try:
                 if method == "GET":
-                    resp = requests.get('{}{}'.format(api, endpoint), headers=header)
+                    resp = requests.get('{}{}'.format(api, endpoint), headers=header, timeout=60)
                 elif method == "POST":
-                    resp = requests.post('{}{}'.format(api, endpoint), json=body, headers=header)
+                    resp = requests.post('{}{}'.format(api, endpoint), json=body, headers=header, timeout=60)
                 elif method == "DELETE":
-                    resp = requests.delete('{}{}'.format(api, endpoint), headers=header)
+                    resp = requests.delete('{}{}'.format(api, endpoint), headers=header, timeout=60)
             except TimeoutError as e:
                 LOG.warning("%s: Timeout - %s", self.ID, e)
                 if retry is not None:

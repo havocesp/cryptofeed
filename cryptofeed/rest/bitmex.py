@@ -62,7 +62,7 @@ class Bitmex(API):
             if self.key_id and self.key_secret:
                 header = self._generate_signature("GET", endpoint)
             header['Accept'] = 'application/json'
-            return requests.get('{}{}'.format(self.api, endpoint), headers=header)
+            return requests.get('{}{}'.format(self.api, endpoint), headers=header, timeout=60)
 
         for interval in dates:
             start = 0
