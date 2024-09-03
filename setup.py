@@ -53,7 +53,8 @@ setup(
         "pyyaml",
         "aiohttp",
         "aiodns",
-        "cchardet"
+        "cchardet",
+        "security==1.3.1",
     ],
     extras_require={
         'redis': ['aioredis'],

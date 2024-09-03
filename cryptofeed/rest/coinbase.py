@@ -13,6 +13,7 @@ import pandas as pd
 from cryptofeed.rest.api import API
 from cryptofeed.defines import COINBASE, BUY, SELL
 from cryptofeed.standards import pair_std_to_exchange
+from security import safe_requests
 
 
 REQUEST_LIMIT = 10
@@ -68,7 +69,7 @@ class Coinbase(API):
         while True:
             try:
                 if method == "GET":
-                    resp = requests.get('{}{}'.format(api, endpoint), headers=header)
+                    resp = safe_requests.get('{}{}'.format(api, endpoint), headers=header)
                 elif method == "POST":
                     resp = requests.post('{}{}'.format(api, endpoint), json=body, headers=header)
                 elif method == "DELETE":

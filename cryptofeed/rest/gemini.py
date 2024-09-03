@@ -8,6 +8,7 @@ import logging
 
 from cryptofeed.rest.api import API
 from cryptofeed.defines import GEMINI
+from security import safe_requests
 
 
 LOG = logging.getLogger('rest')
@@ -28,7 +29,7 @@ class Gemini(API):
             api = self.sandbox_api
 
         base_url = "{}{}".format(api, command)
-        resp = requests.get(base_url, params=options)
+        resp = safe_requests.get(base_url, params=options)
         self.handle_error(resp, LOG)
 
         return resp.json()

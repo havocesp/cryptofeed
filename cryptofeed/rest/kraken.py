@@ -12,6 +12,7 @@ import pandas as pd
 from cryptofeed.rest.api import API, request_retry
 from cryptofeed.defines import KRAKEN, SELL, BUY
 from cryptofeed.standards import pair_std_to_exchange
+from security import safe_requests
 
 
 LOG = logging.getLogger('rest')
@@ -120,7 +121,7 @@ class Kraken(API):
         @request_retry(self.ID, retry, retry_wait)
         def helper(start_date):
             endpoint = f"{self.api}/public/Trades?pair={symbol}&since={start_date}"
-            return requests.get(endpoint)
+            return safe_requests.get(endpoint)
 
 
         start_date = calendar.timegm(pd.Timestamp(start_date).timetuple()) * 1000000000
