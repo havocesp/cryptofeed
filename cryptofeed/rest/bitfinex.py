@@ -97,9 +97,9 @@ class Bitfinex(API):
         @request_retry(self.ID, retry, retry_wait)
         def helper(start, end):
             if start and end:
-                return requests.get(f"{self.api}trades/{symbol}/hist?limit={REQUEST_LIMIT}&start={start}&end={end}&sort=1")
+                return requests.get(f"{self.api}trades/{symbol}/hist?limit={REQUEST_LIMIT}&start={start}&end={end}&sort=1", timeout=60)
             else:
-                return requests.get(f"{self.api}trades/{symbol}/hist")
+                return requests.get(f"{self.api}trades/{symbol}/hist", timeout=60)
 
         while True:
             r = helper(start, end)
@@ -161,7 +161,7 @@ class Bitfinex(API):
         @request_retry(self.ID, retry, retry_wait)
         def helper():
             precision = 'R0' if l3 is True else 'P0'
-            return requests.get(f"{self.api}/book/{symbol}/{precision}?len=100")
+            return requests.get(f"{self.api}/book/{symbol}/{precision}?len=100", timeout=60)
 
         while True:
             r = helper()

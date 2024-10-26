@@ -28,7 +28,7 @@ class Gemini(API):
             api = self.sandbox_api
 
         base_url = "{}{}".format(api, command)
-        resp = requests.get(base_url, params=options)
+        resp = requests.get(base_url, params=options, timeout=60)
         self.handle_error(resp, LOG)
 
         return resp.json()
@@ -57,7 +57,7 @@ class Gemini(API):
             'Cache-Control': "no-cache"
         }
 
-        resp = requests.post(api, headers=headers)
+        resp = requests.post(api, headers=headers, timeout=60)
         self.handle_error(resp, LOG)
 
         return resp.json()
