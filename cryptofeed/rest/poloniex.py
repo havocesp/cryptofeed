@@ -28,7 +28,7 @@ class Poloniex(API):
     def _get(self, command: str, options=None):
         base_url = "{}public?command={}".format(self.rest_api, command)
 
-        resp = requests.get(base_url, params=options)
+        resp = requests.get(base_url, params=options, timeout=60)
         self.handle_error(resp, LOG)
 
         return resp.json()
@@ -48,7 +48,7 @@ class Poloniex(API):
             "Sign": sign,
             'Content-Type': 'application/x-www-form-urlencoded'
         }
-        resp = requests.post("{}tradingApi?command={}".format(self.rest_api, command), headers=headers, data=paybytes)
+        resp = requests.post("{}tradingApi?command={}".format(self.rest_api, command), headers=headers, data=paybytes, timeout=60)
         self.handle_error(resp, LOG)
 
         return resp.json()

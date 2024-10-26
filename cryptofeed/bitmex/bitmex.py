@@ -44,11 +44,11 @@ class Bitmex(Feed):
 
     @staticmethod
     def get_symbol_info():
-        return requests.get(Bitmex.api + 'instrument/').json()
+        return requests.get(Bitmex.api + 'instrument/', timeout=60).json()
 
     @staticmethod
     def get_active_symbols_info():
-        return requests.get(Bitmex.api + 'instrument/active').json()
+        return requests.get(Bitmex.api + 'instrument/active', timeout=60).json()
 
     @staticmethod
     def get_active_symbols():
